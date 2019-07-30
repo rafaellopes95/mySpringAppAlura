@@ -8,6 +8,8 @@ import org.springframework.format.datetime.DateFormatter;
 import org.springframework.format.datetime.DateFormatterRegistrar;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -59,5 +61,16 @@ public class AppWebConfiguration {
 		formatterRegistrar.registerFormatters(conversionService);
 		
 		return conversionService;	
+	}
+	
+	/*
+	 * Este bean serve para configurar um resolver para receber requisições com multipart (arquivos e dados).
+	 * se refere a um resolvedor de dados multimídia. Quando temos texto e arquivos por exemplo. Os arquivos 
+	 * podem ser: imagem, PDF e outros. Este objeto é que identifica cada um dos recursos enviados e nos fornece 
+	 * uma forma mais simples de manipulá-los.
+	 */
+	@Bean
+	public MultipartResolver multipartResolver() {
+		return new StandardServletMultipartResolver();
 	}
 }

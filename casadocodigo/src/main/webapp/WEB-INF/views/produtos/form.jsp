@@ -20,8 +20,10 @@
 	     que receberá a requisição. Para que isso funcione, os request mappings devem
 	     ter / no começo do nome, do contrário ele concatenará todos os paths
 	     sem as devidas / -->
+	<!-- O enctype do tipo multipart/form-data serve para que o form consiga mandar
+	     arquivos através da requisição junto com dados ao controller no backend. -->
     <form:form action="${s:mvcUrl('PC#gravar').build()}" method="POST"
-    	modelAttribute="produto">
+    	modelAttribute="produto" enctype="multipart/form-data">
         <div>
             <label>Título</label>
             <form:input path="titulo"/>
@@ -50,6 +52,12 @@
                 <form:hidden path="precos[${status.index}].tipo" value="${tipoPreco}"/>
             </div>
         </c:forEach>
+        
+        <!-- Campo que receberá um arquivo -->
+        <div>
+        	<label>Sumário</label>
+        	<input name="sumario" type="file"/>
+        </div>
 
         <!--
         <div>

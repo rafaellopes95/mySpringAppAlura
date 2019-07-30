@@ -1,6 +1,8 @@
 package br.com.casadocodigo.loja.config;
 
 import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletRegistration.Dynamic;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -39,6 +41,17 @@ public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletI
 		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
 		encodingFilter.setEncoding("UTF-8");
 		return new Filter[] {encodingFilter};
+	}
+	
+	/*
+	 * Método onde configuramos como o servlet deve configurar os arquivos na requisição.
+	 * Neste objeto, usaremos o método setMultipartConfig que requer um objeto do tipo MultipartConfigElement.
+	 * O MultipartConfigElement espera receber uma String que configure o arquivo. Não usaremos nenhuma 
+	 * configuração para o arquivo, queremos receber este do jeito que vier. Passamos então uma String vazia.
+	 */
+	@Override
+	protected void customizeRegistration(Dynamic registration) {
+		registration.setMultipartConfig(new MultipartConfigElement(""));
 	}
 
 }

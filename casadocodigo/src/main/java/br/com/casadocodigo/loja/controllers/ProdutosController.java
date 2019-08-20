@@ -11,10 +11,12 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.casadocodigo.loja.daos.ProdutoDAO;
+import br.com.casadocodigo.loja.infra.FileSaver;
 import br.com.casadocodigo.loja.models.Produto;
 import br.com.casadocodigo.loja.models.TipoPreco;
 import br.com.casadocodigo.loja.validation.ProdutoValidation;
@@ -25,6 +27,9 @@ public class ProdutosController {
 
 	@Autowired
 	private ProdutoDAO produtoDAO;
+	
+	@Autowired
+	private FileSaver fileSaver;
 	
 	/*
 	 * InitBinder é quem adiciona os validators para que os mesmos possam ser usados durante o binding para validação.
@@ -88,14 +93,21 @@ public class ProdutosController {
 	 * 
 	 * BindingResult é quem guardará o resultado da validação do objeto do parâmetro anterior (o BindingResult deve sempre vir
 	 * logo depois do objeto a ser validado na order da assinatura do método para que possa funcionar!).
+	 * 
+	 * MultipartFile serve para receber um arquivo da requisição, e já possui alguns métodos próprios para o arquivo recebido.
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView gravar(@Valid Produto produto, BindingResult result, RedirectAttributes redirectAttributes) {
+	public ModelAndView gravar(MultipartFile sumario, @Valid Produto produto, BindingResult result, RedirectAttributes redirectAttributes) {
+		
+		System.out.println(sumario.getOriginalFilename());
+		
 		if(result.hasErrors()) {
 			return form(produto);
 		}
 		
-		System.out.println(produto);
+		String path = fileSaver.write("arquivos-sumario", sumario);
+		produto.setSumarioPath(path);
+		
 		produtoDAO.gravar(produto);
 		redirectAttributes.addFlashAttribute("sucesso", "Produto cadastrado com sucesso!");
 		return new ModelAndView("redirect:/produtos");

@@ -20,6 +20,7 @@ public class Produto {
 	private String titulo;
 	private String descricao;
 	private int paginas;
+	private String sumarioPath;
 	
 	/*
 	 * Esta annotation irá criar uma tabela para os precos e fazer o relacionamento com ela automaticamente sem precisar do OneToMany,
@@ -83,10 +84,20 @@ public class Produto {
 		this.dataLancamento = dataLancamento;
 	}
 
+	public String getSumarioPath() {
+		return sumarioPath;
+	}
+
+	public void setSumarioPath(String sumarioPath) {
+		this.sumarioPath = sumarioPath;
+	}
+
 	@Override
 	public String toString() {
 		return "Produto [id=" + id + ", " + (titulo != null ? "titulo=" + titulo + ", " : "")
 				+ (descricao != null ? "descricao=" + descricao + ", " : "") + "paginas=" + paginas + ", "
-				+ (precos != null ? "precos=" + precos : "") + "]";
+				+ (sumarioPath != null ? "sumarioPath=" + sumarioPath + ", " : "")
+				+ (precos != null ? "precos=" + precos + ", " : "")
+				+ (dataLancamento != null ? "dataLancamento=" + dataLancamento : "") + "]";
 	}
 }

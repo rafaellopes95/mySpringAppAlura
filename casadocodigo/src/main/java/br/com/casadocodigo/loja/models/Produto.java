@@ -91,11 +91,13 @@ public class Produto {
 	public void setSumarioPath(String sumarioPath) {
 		this.sumarioPath = sumarioPath;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Produto [id=" + id + ", " + (titulo != null ? "titulo=" + titulo + ", " : "")
 				+ (descricao != null ? "descricao=" + descricao + ", " : "") + "paginas=" + paginas + ", "
-				+ (precos != null ? "precos=" + precos : "") + "]";
+				+ (sumarioPath != null ? "sumarioPath=" + sumarioPath + ", " : "")
+				+ (precos != null ? "precos=" + precos + ", " : "")
+				+ (dataLancamento != null ? "dataLancamento=" + dataLancamento : "") + "]";
 	}
 }

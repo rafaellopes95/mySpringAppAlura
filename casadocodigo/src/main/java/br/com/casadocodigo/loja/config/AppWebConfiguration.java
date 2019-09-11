@@ -11,6 +11,8 @@ import org.springframework.format.support.FormattingConversionService;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import br.com.casadocodigo.loja.controllers.HomeController;
@@ -19,7 +21,7 @@ import br.com.casadocodigo.loja.infra.FileSaver;
 
 @EnableWebMvc
 @ComponentScan(basePackageClasses = {HomeController.class, ProdutoDAO.class, FileSaver.class})
-public class AppWebConfiguration {
+public class AppWebConfiguration implements WebMvcConfigurer {
 
 	/*
 	 * Este bean resolve o nome das views que o controller vai devolver.
@@ -73,5 +75,13 @@ public class AppWebConfiguration {
 	@Bean
 	public MultipartResolver multipartResolver() {
 		return new StandardServletMultipartResolver();
+	}
+	
+	/*
+	 * Este método implementado da interface WebMvcConfigurer serve para que seja possível configurar o caminho
+	 * onde os recursos de CSS, JavaScript e demais para a pasta resources.
+	 */
+	public void addResourceHandlers(ResourceHandlerRegistry resourceHandlerRegistry) {
+		resourceHandlerRegistry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
 }

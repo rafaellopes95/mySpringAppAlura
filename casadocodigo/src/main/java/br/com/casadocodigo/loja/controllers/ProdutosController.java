@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -118,6 +119,19 @@ public class ProdutosController {
 		List<Produto> produtos = produtoDAO.listar();
 		ModelAndView mav = new ModelAndView("produtos/lista");
 		mav.addObject("produtos", produtos);
+		return mav;
+	}
+	
+	/*
+	 * URLs amigáveis: ao invés de conter uma URL extensa com o nome do parâmetro da requisição, é possível
+	 * encurtá-la e deixá-la mais simples ao adicionar uma / e o respectivo id do produto como variável de 
+	 * requisição.
+	 */
+	@RequestMapping("/detalhe/{id}")
+	public ModelAndView detalhe(@PathVariable("id") Integer id) {
+		var mav = new ModelAndView("/produtos/detalhe");
+		var produto = produtoDAO.find(id);
+		mav.addObject("produto", produto);
 		return mav;
 	}
 }
